@@ -1,22 +1,22 @@
-# MYSH 2
+# 42SH
 
-MYSH is a shell written in C.
+42sh is a shell written in C.
 
 ## Installation
 
-To install MYSH, run the following commands:
+To install 42sh, run the following commands:
 
-    $ git clone git@github.com:EpitechPromo2027/B-PSU-200-BDX-2-1-minishell2-remi.mazat.git
+    $ git clone git@github.com:DoctorPok42/42sh.git
 
-    $ cd B-PSU-200-BDX-2-1-minishell2-remi.mazat
+    $ cd 42sh
 
     $ make
 
-    & ./mysh
+    & ./42sh
 
 ## Usage
 
-MYSH is a shell that can execute commands, manage the environment, and manage the return value of the last command executed.
+42sh is a shell that can execute commands, manage the environment, and manage the return value of the last command executed.
 
 ## Tech
 

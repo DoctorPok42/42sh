@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** mysh2
+** 42sh
 ** File description:
-** mysh2_functions
+** 42sh_functions
 */
 
 #include <stdio.h>
@@ -14,8 +14,9 @@
 
 bool token(char *arg);
 void my_put_nbr(int nb);
-int error_handling(int status);
 int my_strlen(char const *src);
+int error_handling(int status);
+void check_github(mysh_t *mysh);
 void my_putstr(char const *str);
 char **parsing_path(mysh_t *mysh);
 char *get_env(env_t *env, char *find);
@@ -78,13 +79,14 @@ static int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser)
     return (mysh->status);
 }
 
-void check_status(int status)
+void check_status(mysh_t *mysh)
 {
-    if (status == 0)
+    check_github(mysh);
+    if (mysh->status == 0) {
         my_putstr("\033[32;1m ✔ \033[44;1m\033[37;1m");
-    else {
+    } else {
         my_putstr("\033[31;1m ✘ ");
-        my_put_nbr(status);
+        my_put_nbr(mysh->status);
         my_putstr(" \033[44;1m\033[37;1m");
     }
 }
@@ -94,19 +96,19 @@ int mysh_loop(mysh_t *mysh, env_t *env)
     char *input = NULL; size_t len = 0; int loop = 0; size_t size = 0;
     parser_t *parser = malloc(sizeof(parser_t));
     while (loop == 0) {
-        my_putstr("\033[44;1m"); check_status(mysh->status);
+        my_putstr("\033[44;1m"); check_status(mysh);
         (!mysh->no_env) ? my_putstr(&getcwd(NULL, size)[my_strlen(
                 get_env(env, "HOME")) + 1]) : 0;
-        my_putstr("\033[33;1m\033[49m >\033[37;0m ");
-        if (getline(&input, &len, stdin) == -1) {mysh->status = -42; break;
+        if (mysh->github[0] != '\0') { printf("\033[49m\033[33;1m git:("
+            "\033[32;1m%s\033[33;1m) >\033[37;0m ", mysh->github);
+        } else  { printf("\033[0m\033[33;1m\033[49m >\033[37;0m ");
+        } if (getline(&input, &len, stdin) == -1) {mysh->status = -42; break;
         } loop = 1;
-    }
-    if (mysh->status == -42) return (mysh->status);
-    parser = parse_args(input, parser);
+    } if (mysh->status == -42) return (mysh->status);
+    parse_args(input, parser);
     while (parser->next != NULL && mysh->status != -42 && input[0] != '\n') {
         if (parser->cmd[0] == '|' || parser->cmd[0] == '>' ||
-            parser->cmd[0] == '<') {
-            parser = parser->next->next; continue;
+            parser->cmd[0] == '<') { parser = parser->next->next; continue;
         } if (parser->cmd[0] == ';') { parser = parser->next; continue;
         }
         mysh->status = mysh_execute(mysh, env, parser); parser = parser->next;

@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** mysh2
+** 42sh
 ** File description:
-** mysh2
+** 42sh
 */
 
 #ifndef MYSH_H
@@ -20,6 +20,7 @@ typedef struct mysh_s {
     int status;
     int exit;
     bool no_env;
+    char *github;
 } mysh_t;
 
 int func_cd(mysh_t *mysh, env_t *env, parser_t *parser);

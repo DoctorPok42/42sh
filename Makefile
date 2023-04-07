@@ -7,37 +7,46 @@
 
 SRC = src/main.c \
 	src/mysh_functions.c \
-	src/utils/get.c \
-	src/utils/parsing.c \
-	src/utils/errors.c \
-	src/utils/execute.c \
-	src/utils/exec/default.c \
-	src/utils/exec/pipe.c \
-	src/utils/exec/redirection.c \
-	src/utils/exec/file.c \
-	src/builtins/cd.c \
-	src/builtins/env.c \
-	src/builtins/exit.c \
-	src/builtins/setenv.c \
-	src/builtins/unsetenv.c \
-	src/lists/parser.c \
-	src/lists/put_in_args.c \
-	src/lists/env.c \
-	src/functions/my_putstr.c \
-	src/functions/my_strcmp.c \
-	src/functions/my_strncmp.c \
-	src/functions/my_len.c \
-	src/functions/my_strcat.c \
-	src/functions/my_str_isalpha.c \
-	src/functions/my_str_to_word_array.c \
-	src/functions/my_put_nbr.c \
-	src/functions/my_putchar.c
+	src/check_github.c \
+	$(addprefix src/utils/, \
+		get.c \
+		parsing.c \
+		errors.c \
+		execute.c \
+		exec/default.c \
+		exec/pipe.c \
+		exec/redirection.c \
+		exec/file.c \
+	) \
+	$(addprefix src/builtins/, \
+		cd.c \
+		env.c \
+		exit.c \
+		setenv.c \
+		unsetenv.c \
+	) \
+	$(addprefix src/lists/, \
+		parser.c \
+		put_in_args.c \
+		env.c \
+	) \
+	$(addprefix src/functions/, \
+		my_putstr.c \
+		my_strcmp.c \
+		my_strncmp.c \
+		my_len.c \
+		my_strcat.c \
+		my_str_isalpha.c \
+		my_str_to_word_array.c \
+		my_put_nbr.c \
+		my_putchar.c \
+	)
 
 OBJ = $(SRC:.c=.o)
 
 CFLAGS = -I include/ -Wall -Wextra
 
-NAME = mysh
+NAME = 42sh
 
 all: $(NAME)
 
