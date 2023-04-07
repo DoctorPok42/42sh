@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** mysh2
+** 42sh
 ** File description:
 ** parsing
 */

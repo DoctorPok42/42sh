@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** mysh2
+** 42sh
 ** File description:
 ** setenv
 */
@@ -30,9 +30,9 @@ static int error(parser_t *parser)
         return -1;
     }
 
-    if (parser->args[1] != NULL && (parser->args[1][0] >= '0' &&
-        parser->args[1][0] <= '9' ||
-        my_caract_isalpha(parser->args[1][0])) != 0) {
+    if (parser->args[1] != NULL && ((parser->args[1][0] >= '0') &&
+        (parser->args[1][0] <= '9' ||
+        my_caract_isalpha(parser->args[1][0]))) != 0) {
         my_putstr("setenv: Variable name must begin with a letter.\n");
         return -1;
     }

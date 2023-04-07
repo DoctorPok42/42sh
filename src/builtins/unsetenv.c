@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** mysh2
+** 42sh
 ** File description:
 ** unsetenv
 */
@@ -21,6 +21,7 @@ static int test(env_t *env, char *args)
         }
         env = env->next;
     }
+    return (0);
 }
 
 int func_unsetenv(mysh_t *mysh, env_t *env, parser_t *parser)
