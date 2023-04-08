@@ -95,8 +95,7 @@ int mysh_loop(mysh_t *mysh, env_t *env)
 {
     char *input = NULL; size_t len = 0; int loop = 0; size_t size = 0;
     parser_t *parser = malloc(sizeof(parser_t));
-    while (loop == 0) {
-        my_putstr("\033[44;1m"); check_status(mysh);
+    while (loop == 0) { my_putstr("\033[44;1m"); check_status(mysh);
         (!mysh->no_env) ? my_putstr(&getcwd(NULL, size)[my_strlen(
                 get_env(env, "HOME")) + 1]) : 0;
         if (mysh->github[0] != '\0') { printf("\033[49m\033[33;1m git:("
@@ -105,6 +104,7 @@ int mysh_loop(mysh_t *mysh, env_t *env)
         } if (getline(&input, &len, stdin) == -1) {mysh->status = -42; break;
         } loop = 1;
     } if (mysh->status == -42) return (mysh->status);
+    mysh->input = input;
     parse_args(input, parser);
     while (parser->next != NULL && mysh->status != -42 && input[0] != '\n') {
         if (parser->cmd[0] == '|' || parser->cmd[0] == '>' ||

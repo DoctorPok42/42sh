@@ -21,6 +21,7 @@ typedef struct mysh_s {
     int exit;
     bool no_env;
     char *github;
+    char *input;
 } mysh_t;
 
 int func_cd(mysh_t *mysh, env_t *env, parser_t *parser);

@@ -9,6 +9,7 @@
 #include "mysh.h"
 #include "lists.h"
 
+int put_in_history(mysh_t *mysh);
 int mysh_loop(mysh_t *mysh, env_t *env_list);
 char *my_strcat(char *dest, char const *src);
 env_t *put_in_env(char **tab, env_t *env_list);
@@ -29,6 +30,10 @@ int main(int ac, char **av, char **env)
     }
     while (mysh->status != -42) {
         mysh->status = mysh_loop(mysh, env_list);
+        if (mysh->status == -42)
+            break;
+        if (mysh->status == 0)
+            put_in_history(mysh);
     }
     if (mysh->status == -42)
         my_putstr("exit\n");

@@ -23,6 +23,9 @@ SRC = src/main.c \
 		exit.c \
 		setenv.c \
 		unsetenv.c \
+		history.c \
+		alias.c \
+		unalias.c \
 	) \
 	$(addprefix src/lists/, \
 		parser.c \
