@@ -12,7 +12,6 @@ SRC = src/main.c \
 		get.c \
 		parsing.c \
 		errors.c \
-		execute.c \
 		exec/default.c \
 		exec/pipe.c \
 		exec/redirection.c \

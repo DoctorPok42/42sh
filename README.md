@@ -24,7 +24,7 @@ To install 42sh, run the following commands:
 
 ## Folder Structure
 
-```css
+```bash
 .
 ├── include
 │   ├── lists.h

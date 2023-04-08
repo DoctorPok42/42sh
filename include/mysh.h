@@ -27,6 +27,9 @@ int func_cd(mysh_t *mysh, env_t *env, parser_t *parser);
 int func_setenv(mysh_t *mysh, env_t *env, parser_t *parser);
 int func_unsetenv(mysh_t *mysh, env_t *env, parser_t *parser);
 int func_env(mysh_t *mysh, env_t *env, parser_t *parser);
+int func_alias(mysh_t *mysh, env_t *env, parser_t *parser);
+int func_unalias(mysh_t *mysh, env_t *env, parser_t *parser);
+int func_history(mysh_t *mysh, env_t *env, parser_t *parser);
 int func_exit(mysh_t *mysh, env_t *env, parser_t *parser);
 
 typedef struct list_flags_s {
@@ -39,6 +42,9 @@ static const flags FLAGS[] = {
     {flags : "setenv", function : &func_setenv},
     {flags : "unsetenv", function : &func_unsetenv},
     {flags : "env", function : &func_env},
+    {flags : "alias", function : &func_alias},
+    {flags : "unalias", function : &func_unalias},
+    {flags : "history", function : &func_history},
     {flags : "exit", function : &func_exit},
     {flags : NULL, function : NULL}};
 
