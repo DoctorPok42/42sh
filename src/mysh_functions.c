@@ -13,21 +13,18 @@
 #include "lists.h"
 
 bool token(char *arg);
-void my_put_nbr(int nb);
-int my_strlen(char const *src);
 int error_handling(int status);
-void check_github(mysh_t *mysh);
 void my_putstr(char const *str);
 char **parsing_path(mysh_t *mysh);
-char *get_env(env_t *env, char *find);
 char *my_strcat(char *dest, char const *src);
+int display_prompt(mysh_t *mysh, env_t *env);
 int my_strcmp(char const *s1, char const *s2);
-parser_t *parse_args(char *input, parser_t *parser);
 int launch_redirection(env_t *env, parser_t *parser, int status);
 int launch_pipe(env_t *env, parser_t *parser, int status);
 int launch_file(env_t *env, parser_t *parser, int status);
 int launch_default(env_t *env, parser_t *parser, int status);
 char **my_str_to_word_array(char const *str, char const separator);
+int parse_input(mysh_t *mysh, env_t *env);
 
 char *check_pass(parser_t *parser, char **path_slice)
 {
@@ -63,7 +60,7 @@ static int mysh_launch(mysh_t *mysh, env_t *env, parser_t *parser)
     return launch_default(env, parser, mysh->status);
 }
 
-static int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser)
+int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser)
 {
     for (int i = 0; FLAGS[i].flags != NULL; i++) {
         if (my_strcmp(parser->cmd, FLAGS[i].flags) == 0) {
@@ -79,38 +76,26 @@ static int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser)
     return (mysh->status);
 }
 
-void check_status(mysh_t *mysh)
-{
-    check_github(mysh);
-    if (mysh->status == 0) {
-        my_putstr("\033[32;1m ✔ \033[44;1m\033[37;1m");
-    } else {
-        my_putstr("\033[31;1m ✘ ");
-        my_put_nbr(mysh->status);
-        my_putstr(" \033[44;1m\033[37;1m");
-    }
-}
-
 int mysh_loop(mysh_t *mysh, env_t *env)
 {
-    char *input = NULL; size_t len = 0; int loop = 0; size_t size = 0;
-    parser_t *parser = malloc(sizeof(parser_t));
-    while (loop == 0) { my_putstr("\033[44;1m"); check_status(mysh);
-        (!mysh->no_env) ? my_putstr(&getcwd(NULL, size)[my_strlen(
-                get_env(env, "HOME")) + 1]) : 0;
-        if (mysh->github[0] != '\0') { printf("\033[49m\033[33;1m git:("
-            "\033[32;1m%s\033[33;1m) >\033[37;0m ", mysh->github);
-        } else  { printf("\033[0m\033[33;1m\033[49m >\033[37;0m ");
-        } if (getline(&input, &len, stdin) == -1) {mysh->status = -42; break;
-        } loop = 1;
-    } if (mysh->status == -42) return (mysh->status);
-    mysh->input = input;
-    parse_args(input, parser);
-    while (parser->next != NULL && mysh->status != -42 && input[0] != '\n') {
-        if (parser->cmd[0] == '|' || parser->cmd[0] == '>' ||
-            parser->cmd[0] == '<') { parser = parser->next->next; continue;
-        } if (parser->cmd[0] == ';') { parser = parser->next; continue;
+    char *input = NULL; size_t len = 0; int loop = 0;
+
+    while (loop == 0) {
+        if (isatty(0) == 1) {
+            mysh->status = display_prompt(mysh, env);
         }
-        mysh->status = mysh_execute(mysh, env, parser); parser = parser->next;
-    } return (mysh->status);
+        if (mysh->status == -42)
+            return (mysh->status);
+        if (getline(&input, &len, stdin) == -1) {
+            mysh->status = -42;
+            break;
+        }
+        loop = 1;
+    }
+    if (mysh->status == -42)
+        return (mysh->status);
+    mysh->input = input;
+    if (parse_input(mysh, env) == 84)
+        return (84);
+    return mysh->status;
 }
