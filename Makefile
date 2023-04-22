@@ -8,6 +8,8 @@
 SRC = src/main.c \
 	src/mysh_functions.c \
 	src/check_github.c \
+	src/parse.c \
+	src/diplay_prompt.c \
 	$(addprefix src/utils/, \
 		get.c \
 		parsing.c \
