@@ -11,39 +11,53 @@ SRC = src/main.c \
 	src/parse.c \
 	src/diplay_prompt.c \
 	$(addprefix src/utils/, \
-		get.c \
-		parsing.c \
-		errors.c \
-		exec/default.c \
-		exec/pipe.c \
-		exec/redirection.c \
-		exec/file.c \
+		$(addsuffix .c, \
+			get \
+			parsing \
+			errors \
+			exec/default \
+			exec/pipe \
+			exec/redirection \
+			exec/file \
+		) \
 	) \
 	$(addprefix src/builtins/, \
-		cd.c \
-		env.c \
-		exit.c \
-		setenv.c \
-		unsetenv.c \
-		history.c \
-		alias.c \
-		unalias.c \
+		$(addsuffix .c, \
+			cd \
+			env \
+			exit \
+			setenv \
+			unsetenv \
+			history \
+			alias \
+			unalias \
+			system \
+			system/help \
+			system/battery \
+			system/cpu \
+			system/memory \
+			system/network \
+		) \
 	) \
 	$(addprefix src/lists/, \
-		parser.c \
-		put_in_args.c \
-		env.c \
+		$(addsuffix .c, \
+			parser \
+			put_in_args \
+			env \
+		) \
 	) \
 	$(addprefix src/functions/, \
-		my_putstr.c \
-		my_strcmp.c \
-		my_strncmp.c \
-		my_len.c \
-		my_strcat.c \
-		my_str_isalpha.c \
-		my_str_to_word_array.c \
-		my_put_nbr.c \
-		my_putchar.c \
+		$(addsuffix .c, \
+			my_putstr \
+			my_strcmp \
+			my_strncmp \
+			my_len \
+			my_strcat \
+			my_str_isalpha \
+			my_str_to_word_array \
+			my_put_nbr \
+			my_putchar \
+		) \
 	)
 
 OBJ = $(SRC:.c=.o)
