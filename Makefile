@@ -19,6 +19,7 @@ SRC = src/main.c \
 			exec/pipe \
 			exec/redirection \
 			exec/file \
+			exec/index \
 		) \
 	) \
 	$(addprefix src/builtins/, \
