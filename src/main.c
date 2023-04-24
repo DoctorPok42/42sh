@@ -25,14 +25,14 @@ int main(int ac, char **av, char **env)
         env_list->name = NULL; env_list->value = NULL; env_list->next = NULL;
         mysh->no_env = true;
     }
+
     while (mysh->status != -42) {
         mysh->status = mysh_loop(mysh, env_list);
-        if (mysh->status == -42)
-            break;
-        put_in_history(mysh);
+        if (mysh->status != -42)
+            put_in_history(mysh);
     }
-    if (mysh->status == -42)
-        my_putstr("exit\n");
 
-    free(mysh); return (0);
+    my_putstr("exit\n");
+    free (mysh);
+    return 0;
 }

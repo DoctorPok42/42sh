@@ -24,13 +24,13 @@ char *check_pass(parser_t *parser, char **path_slice);
 static int launch_second_process(env_t *env, parser_t *parser, int link[2],
     char **path_slice)
 {
+    if (parser->cmd == NULL) return 1;
     pid_t pid2; int status = 0;
     if ((pid2 = fork()) == -1) {
         perror("Fork failed. \n"); return 2;
     }
     if (pid2 == 0) {
         parser->cmd = check_pass(parser, path_slice);
-        if (parser->cmd == NULL) return 1;
         if ((link[1] = open(parser->next->next->cmd, O_RDONLY)) < 0) {
             perror(parser->next->next->cmd); return 1;
         }

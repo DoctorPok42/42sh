@@ -31,29 +31,22 @@ int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser)
         return (127);
     } else
         return mysh_launch(mysh, env, parser);
-    return (mysh->status);
+    return -1;
 }
 
 int mysh_loop(mysh_t *mysh, env_t *env)
 {
-    char *input = NULL;
+    mysh->input = NULL;
     size_t len = 0;
-    int loop = 0;
 
-    while (loop == 0) {
-        if (isatty(0) == 1)
-            mysh->status = display_prompt(mysh, env);
-        if (mysh->status == -42)
-            return (mysh->status);
-        if (getline(&input, &len, stdin) == -1)
-            mysh->status = -42;
-        loop = 1;
-    }
+    if (isatty(0) == 1)
+        mysh->status = display_prompt(mysh, env);
+    if (getline(&mysh->input, &len, stdin) == -1)
+        return -42;
 
     if (mysh->status == -42)
         return (mysh->status);
-    mysh->input = input;
-    if (parse_input(mysh, env) == 84)
+    if (parse_input(mysh, env) == 84 || mysh->status == -42)
         return (84);
     return mysh->status;
 }

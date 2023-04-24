@@ -53,11 +53,11 @@ int launch_redirection(env_t *env, parser_t *parser, int status)
         my_putstr("Invalid null command.\n"); return 1;
     } char **path_slice = parsing_path(env);
     parser->cmd = check_pass(parser, path_slice);
+    if (parser->cmd == NULL) return 1;
     if (pipe(link) == -1) { perror("Pipe failed. \n"); return 1;
     }
     if ((pid1 = fork()) == -1) { perror("Fork failed. \n"); return 2;
     } if (pid1 == 0) {
-        if (parser->cmd == NULL) return 1;
         dup2(link[1], STDOUT_FILENO); close(link[0]);
         if ((status = execve(parser->cmd, parser->args, env_tab(env))) == -1) {
             perror(parser->cmd); return status;
