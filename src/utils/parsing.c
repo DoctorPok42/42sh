@@ -29,7 +29,7 @@ char **parsing_path(env_t *env)
 
 bool token(char arg)
 {
-    char *token[8] = {"&&", ";", "|", ">", ">>", "<", "<<", NULL};
+    char *token[9] = {"&&", ";", "|", "||", ">", ">>", "<", "<<", NULL};
     for (int j = 0; token[j] != NULL; j++) {
         if (arg == token[j][0] && (arg == token[j][1] || token[j][1] == '\0'))
             return false;
