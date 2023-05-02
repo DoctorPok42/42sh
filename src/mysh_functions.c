@@ -15,8 +15,9 @@
 void my_putstr(char const *str);
 int display_prompt(mysh_t *mysh, env_t *env);
 int my_strcmp(char const *s1, char const *s2);
-int parse_input(mysh_t *mysh, env_t *env);
+int parse_input(mysh_t *mysh, env_t *env, char *cmd);
 int mysh_launch(mysh_t *mysh, env_t *env, parser_t *parser);
+int check_alias(mysh_t *mysh, env_t *env, parser_t *parser);
 
 int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser)
 {
@@ -38,6 +39,7 @@ int mysh_loop(mysh_t *mysh, env_t *env)
 {
     mysh->input = NULL;
     size_t len = 0;
+    char *cmd = NULL;
 
     if (isatty(0) == 1)
         mysh->status = display_prompt(mysh, env);
@@ -46,7 +48,7 @@ int mysh_loop(mysh_t *mysh, env_t *env)
 
     if (mysh->status == -42)
         return (mysh->status);
-    if (parse_input(mysh, env) == 84 || mysh->status == -42)
+    if (parse_input(mysh, env, cmd) == 84 || mysh->status == -42)
         return (84);
     return mysh->status;
 }
