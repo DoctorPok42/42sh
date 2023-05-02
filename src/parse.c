@@ -11,6 +11,8 @@
 int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser);
 parser_t *parse_args(char *input, parser_t *parser);
 int my_strcmp(char const *s1, char const *s2);
+char *check_alias(mysh_t *mysh,
+    env_t __attribute__((unused))*env, __attribute__((unused))parser_t *parser);
 
 int check_args(parser_t *parser, mysh_t *mysh)
 {
