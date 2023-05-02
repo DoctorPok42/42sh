@@ -14,16 +14,16 @@ int my_strcmp(char const *s1, char const *s2);
 
 int check_args(parser_t *parser, mysh_t *mysh)
 {
-    if (my_strcmp(parser->cmd[0], '||') == 0 && mysh->status != 0) {
+    if (my_strcmp(parser->cmd, "||") == 0 && mysh->status != 0) {
         parser = parser->next;
         return (0);
     } else {
         parser = parser->next->next;
         return (0);
     }
-    if (my_strcmp(parser->cmd[0], '|') == 0 ||
-        my_strcmp(parser->cmd[0], '>') == 0 ||
-        my_strcmp(parser->cmd[0],'<') == 0) {
+    if (parser->cmd[0] == '|' ||
+        parser->cmd[0] == '>' ||
+        parser->cmd[0] == '<') {
             parser = parser->next->next;
             return (0);
     }
