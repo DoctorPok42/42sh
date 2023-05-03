@@ -56,12 +56,12 @@ int parse_input(mysh_t *mysh, env_t *env, char *cmd)
         if (check_args_return == 2) {
             parser = parser->next->next;
             continue;
-        } else if (check_args_return == 1) {
+        }
+        if (check_args_return == 1) {
             parser = parser->next;
             continue;
         }
-        mysh->status = mysh_execute(mysh, env, parser);
-        parser = parser->next;
+        mysh->status = mysh_execute(mysh, env, parser); parser = parser->next;
     }
     return (mysh->status);
 }
