@@ -12,6 +12,7 @@
 #include "mysh.h"
 #include "lists.h"
 
+void get_input(mysh_t *mysh);
 void my_putstr(char const *str);
 int display_prompt(mysh_t *mysh, env_t *env);
 int my_strcmp(char const *s1, char const *s2);
@@ -38,16 +39,19 @@ int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser)
 int mysh_loop(mysh_t *mysh, env_t *env)
 {
     mysh->input = NULL;
-    size_t len = 0;
     char *cmd = NULL;
 
     if (isatty(0) == 1)
         mysh->status = display_prompt(mysh, env);
-    if (getline(&mysh->input, &len, stdin) == -1)
-        return -42;
+
+    get_input(mysh);
+    write(1, "\n", 1);
 
     if (mysh->status == -42)
         return (mysh->status);
+    if (mysh->input[0] == '\0')
+        return 0;
+
     if (parse_input(mysh, env, cmd) == 84 || mysh->status == -42)
         return (84);
     return mysh->status;

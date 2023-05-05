@@ -13,6 +13,8 @@
 #include "mysh.h"
 #include "lists.h"
 
+int my_strlen(char const *str);
+
 int put_in_history(mysh_t *mysh)
 {
     FILE *fp; char line[256]; int last_num = 0;
@@ -33,7 +35,7 @@ int put_in_history(mysh_t *mysh)
         printf("Erreur d'ouverture du fichier %s\n", "config/history.txt");
         return -1;
     }
-    fprintf(fp, "%d %s", last_num + 1, mysh->input); fclose(fp);
+    fprintf(fp, "%d %s\n", last_num + 1, mysh->input); fclose(fp);
     return (0);
 }
 
@@ -59,4 +61,61 @@ int func_history(mysh_t *mysh, env_t *env, parser_t *parser)
     free(buffer);
     close(fd);
     return (0);
+}
+
+char *format_return(char *str)
+{
+    int i = 0;
+    int j = 0;
+    int separator = 0;
+    for (; str[i] != '\0'; i++) {
+        if (str[i] == ' ') {
+            separator = i;
+            break;
+        }
+    }
+    char *new_str = malloc(sizeof(char) * my_strlen(str) - (separator + 1));
+    for (i = separator + 1; str[i] != '\0'; i++) {
+        new_str[j] = str[i];
+        j++;
+    }
+    new_str[my_strlen(str) - (separator + 2)] = '\0';
+    return (new_str);
+}
+
+char *search_in_history (int nb)
+{
+    FILE *fp; char line[256];
+    fp = fopen("config/history.txt", "r");
+    if (fp == NULL) {
+        printf("Erreur d'ouverture du fichier %s\n", "config/history.txt");
+        return NULL;
+    }
+    while (fgets(line, sizeof(line), fp)) {
+        int num;
+        if (sscanf(line, "%d", &num) == 1 && num == nb) {
+            fclose(fp);
+            return (format_return(line));
+        }
+    }
+    fclose(fp);
+    return NULL;
+}
+
+int get_number_of_line(void)
+{
+    FILE *fp; char line[256]; int last_num = 0;
+    fp = fopen("config/history.txt", "r");
+    if (fp == NULL) {
+        printf("Erreur d'ouverture du fichier %s\n", "config/history.txt");
+        return -1;
+    }
+    while (fgets(line, sizeof(line), fp)) {
+        int num;
+        if (sscanf(line, "%d", &num) == 1) {
+            last_num = num;
+        }
+    }
+    fclose(fp);
+    return (last_num);
 }

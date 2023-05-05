@@ -59,7 +59,13 @@ SRC = src/main.c \
 			my_put_nbr \
 			my_putchar \
 		) \
-	)
+	) \
+	$(addprefix src/prompt/, \
+		$(addsuffix .c, \
+			get_input \
+			arrows \
+		)\
+	) \
 
 OBJ = $(SRC:.c=.o)
 
