@@ -29,7 +29,7 @@ int main(int ac, char **av, char **env)
     while (mysh->status != -42) {
         mysh->status = mysh_loop(mysh, env_list);
         if (mysh->status != -42 && mysh->input != NULL &&
-            mysh->input[0] != '\n')
+            mysh->input[0] != '\n' && mysh->input[0] != '\0')
             put_in_history(mysh);
     }
 
