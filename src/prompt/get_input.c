@@ -71,9 +71,9 @@ void loop(mysh_t *mysh, prompt_t *prompt)
         read(STDIN_FILENO, &c, 1);
         switch (c) {
             case 4:
-                mysh->status = -42; free(prompt); return;
+                mysh->status = -42; return;
             case '\n':
-                mysh->input = prompt->buffer; free(prompt); return;
+                mysh->input = prompt->buffer; return;
             case 127:
             case '\b':
                 back_space_key(prompt); break;
@@ -104,7 +104,6 @@ void get_input(mysh_t *mysh)
 
     loop(mysh, prompt);
 
-    prompt->buffer[prompt->position + 1] = '\0';
     mysh->input = prompt->buffer;
     free(prompt);
 
