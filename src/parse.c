@@ -16,9 +16,11 @@ char *check_alias(mysh_t *mysh,
 
 int check_args(parser_t *parser, mysh_t *mysh)
 {
-    if (my_strcmp(parser->cmd, "||") == 0 && mysh->status != 0)
+    if ((my_strcmp(parser->cmd, "||") == 0 && mysh->status != 0) ||
+        (my_strcmp(parser->cmd, "&&") == 0 && mysh->status == 0))
         return (1);
-    if (my_strcmp(parser->cmd, "||") == 0 && mysh->status == 0)
+    if ((my_strcmp(parser->cmd, "||") == 0 && mysh->status == 0) ||
+        (my_strcmp(parser->cmd, "&&") == 0 && mysh->status != 0))
         return (2);
 
     if (parser->cmd[0] == '|' ||
