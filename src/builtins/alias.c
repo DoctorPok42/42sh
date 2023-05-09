@@ -15,6 +15,7 @@
 #include "lists.h"
 
 char **my_str_to_word_array(char *str, char const separator);
+int my_tablen(char **tab);
 
 int fp_check(FILE *fp)
 {
@@ -41,18 +42,19 @@ static char *check_array(char **array, char **alias_array, int i, int fd)
 char *check_alias(mysh_t *mysh,
     env_t __attribute__((unused))*env, __attribute__((unused))parser_t *parser)
 {
+    int len = 0;
     char *cmd = NULL;
     char **array = NULL;
     struct stat st;
     stat("config/alias.txt", &st);
     char *buffer = malloc(sizeof(char) * (st.st_size) + 1);
     int fd = open("config/alias.txt", O_RDONLY);
-    char *alias = strdup(mysh->input);
-    char **alias_array = my_str_to_word_array(alias, '\n');
+    char **alias_array = my_str_to_word_array(mysh->input, '\n');
     read(fd, buffer, st.st_size);
     buffer[st.st_size] = '\0';
     array = my_str_to_word_array(buffer, '\n');
-    for (int i = 0; array[i] != NULL; i++) {
+    for (; array[len][0] != '\0'; len += 1);
+    for (int i = len - 1; i >= 0; i -= 1) {
         if ((cmd = check_array(array, alias_array, i, fd)) != NULL)
             return cmd;
     }
@@ -60,7 +62,7 @@ char *check_alias(mysh_t *mysh,
     return NULL;
 }
 
-static int single_alias(mysh_t *mysh)
+static int single_alias(mysh_t *mysh, parser_t *parser)
 {
     struct stat st;
     stat("config/alias.txt", &st);
@@ -69,7 +71,7 @@ static int single_alias(mysh_t *mysh)
     char *alias = strdup(mysh->input);
     read(fd, buffer, st.st_size);
     buffer[st.st_size] = '\0';
-    if (strncmp(alias, "alias\n", 5) == 0) {
+    if (strncmp(alias, "alias\n", 5) == 0 && my_tablen(parser->args) == 1) {
         printf("%s\n", buffer);
         return 0;
     }
@@ -82,7 +84,7 @@ int func_alias(mysh_t *mysh,
     FILE *fp;
     fp = fopen("config/alias.txt", "r");
     fp_check(fp);
-    if (single_alias(mysh) == 0)
+    if (single_alias(mysh, parser) == 0)
         return 0;
     fclose(fp);
     fp = fopen("config/alias.txt", "a");
