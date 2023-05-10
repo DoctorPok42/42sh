@@ -55,8 +55,9 @@ char *check_alias(mysh_t *mysh,
     array = my_str_to_word_array(buffer, '\n');
     for (; array[len][0] != '\0'; len += 1);
     for (int i = len - 1; i >= 0; i -= 1) {
-        if ((cmd = check_array(array, alias_array, i, fd)) != NULL)
+        if ((cmd = check_array(array, alias_array, i, fd)) != NULL) {
             return cmd;
+        }
     }
     close(fd);
     return NULL;
