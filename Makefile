@@ -10,6 +10,7 @@ SRC = src/main.c \
 	src/check_github.c \
 	src/parse.c \
 	src/diplay_prompt.c \
+	src/check_config.c \
 	$(addprefix src/utils/, \
 		$(addsuffix .c, \
 			get \
