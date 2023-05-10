@@ -8,6 +8,7 @@
 #include <string.h>
 #include "mysh.h"
 
+int search_globins(parser_t *parser);
 int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser);
 parser_t *parse_args(char *input, parser_t *parser);
 int my_strcmp(char const *s1, char const *s2);

@@ -13,6 +13,7 @@ SRC = src/main.c \
 	$(addprefix src/utils/, \
 		$(addsuffix .c, \
 			get \
+			search_globins \
 			parsing \
 			errors \
 			exec/default \
