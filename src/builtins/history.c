@@ -18,9 +18,9 @@ int my_strlen(char const *str);
 int put_in_history(mysh_t *mysh)
 {
     FILE *fp; char line[256]; int last_num = 0;
-    fp = fopen("config/history.txt", "r");
+    fp = fopen(mysh->history, "r");
     if (fp == NULL) {
-        printf("Erreur d'ouverture du fichier %s\n", "config/history.txt");
+        printf("Erreur d'ouverture du fichier %s\n", mysh->history);
         return -1;
     }
     while (fgets(line, sizeof(line), fp)) {
@@ -30,9 +30,9 @@ int put_in_history(mysh_t *mysh)
         }
     }
     fclose(fp);
-    fp = fopen("config/history.txt", "a");
+    fp = fopen(mysh->history, "a");
     if (fp == NULL) {
-        printf("Erreur d'ouverture du fichier %s\n", "config/history.txt");
+        printf("Erreur d'ouverture du fichier %s\n", mysh->history);
         return -1;
     }
     fprintf(fp, "%d %s\n", last_num + 1, mysh->input); fclose(fp);
@@ -46,11 +46,11 @@ int func_history(mysh_t *mysh, env_t *env, parser_t *parser)
     (void) parser;
 
     struct stat st;
-    if (stat("config/history.txt", &st) == -1) {
-        printf("Erreur d'ouverture du fichier %s\n", "config/history.txt");
+    if (stat(mysh->history, &st) == -1) {
+        printf("Erreur d'ouverture du fichier %s\n", mysh->history);
         return -1;
     }
-    int fd = open("config/history.txt", O_RDONLY);
+    int fd = open(mysh->history, O_RDONLY);
 
     char *buffer = malloc(sizeof(char) * st.st_size + 1);
     read(fd, buffer, st.st_size);
@@ -83,12 +83,12 @@ char *format_return(char *str)
     return (new_str);
 }
 
-char *search_in_history (int nb)
+char *search_in_history(mysh_t *mysh, int nb)
 {
     FILE *fp; char line[256];
-    fp = fopen("config/history.txt", "r");
+    fp = fopen(mysh->history, "r");
     if (fp == NULL) {
-        printf("Erreur d'ouverture du fichier %s\n", "config/history.txt");
+        printf("Erreur d'ouverture du fichier %s\n", mysh->history);
         return NULL;
     }
     while (fgets(line, sizeof(line), fp)) {
@@ -102,12 +102,12 @@ char *search_in_history (int nb)
     return NULL;
 }
 
-int get_number_of_line(void)
+int get_number_of_line(mysh_t *mysh)
 {
     FILE *fp; char line[256]; int last_num = 0;
-    fp = fopen("config/history.txt", "r");
+    fp = fopen(mysh->history, "r");
     if (fp == NULL) {
-        printf("Erreur d'ouverture du fichier %s\n", "config/history.txt");
+        printf("Erreur d'ouverture du fichier %s\n", mysh->history);
         return -1;
     }
     while (fgets(line, sizeof(line), fp)) {

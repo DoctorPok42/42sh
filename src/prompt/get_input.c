@@ -12,8 +12,8 @@
 #include "mysh.h"
 #include "prompt.h"
 
-int get_number_of_line(void);
-void get_key(prompt_t *prompt, char caract);
+int get_number_of_line(mysh_t *mysh);
+void get_key(mysh_t *mysh, prompt_t *prompt, char caract);
 
 void back_space_key(prompt_t *prompt)
 {
@@ -80,7 +80,7 @@ void loop(mysh_t *mysh, prompt_t *prompt)
             case '\e':
                 if (read(STDIN_FILENO, &c, 1) == -1) break;
                 if (read(STDIN_FILENO, &c, 1) == -1) break;
-                get_key(prompt, c); break;
+                get_key(mysh, prompt, c); break;
             default:
                 write_caract(prompt, c, diff); break;
         }
@@ -103,7 +103,7 @@ void get_input(mysh_t *mysh)
     for (long unsigned i = 0; i < prompt->size; i++)
         prompt->buffer[i] = '\0';
     prompt->position = 0;
-    prompt->history = get_number_of_line() + 1;
+    prompt->history = get_number_of_line(mysh) + 1;
     loop(mysh, prompt);
     mysh->input = strdup(prompt->buffer);
     free(prompt->buffer);
