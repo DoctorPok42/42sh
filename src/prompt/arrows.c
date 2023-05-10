@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include "mysh.h"
 #include "prompt.h"
@@ -13,6 +14,7 @@
 char *search_in_history(int nb);
 int get_number_of_line(void);
 int my_strlen(char *str);
+void delete_key(prompt_t *prompt);
 
 void erase_line(prompt_t *prompt)
 {
@@ -83,5 +85,10 @@ void get_key(prompt_t *prompt, char caract)
         case 'C':
         case 'D':
             move_cursor(prompt, caract);
+            break;
+        case '3':
+            if (read(0, &caract, 1) == 1 && caract == '~')
+                delete_key(prompt);
+            break;
     }
 }

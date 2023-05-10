@@ -39,6 +39,30 @@ void back_space_key(prompt_t *prompt)
     }
 }
 
+void delete_key(prompt_t *prompt)
+{
+    int selected = 0;
+    if (prompt->position < strlen(prompt->buffer)) {
+        memmove(&prompt->buffer[prompt->position],
+                &prompt->buffer[prompt->position + 1],
+                strlen(prompt->buffer) - prompt->position);
+
+        printf("\033[K");
+        fflush(stdout);
+
+        selected = strlen(prompt->buffer) - prompt->position;
+
+        for (size_t i = prompt->position; i < strlen(prompt->buffer); i++) {
+            printf("%c", prompt->buffer[i]);
+            fflush(stdout);
+        }
+
+        printf(" ");
+        printf("\033[%dD", selected + 1);
+        fflush(stdout);
+    }
+}
+
 void write_caract(prompt_t *prompt, char c, int diff)
 {
     if (prompt->position == prompt->size - 1) {
