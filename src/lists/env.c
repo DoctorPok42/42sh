@@ -19,6 +19,7 @@ env_t *put_in_env(char **tab, env_t *env)
     for (int i = 0; tab[i] != NULL; i++) {
         tmp = my_str_to_word_array(tab[i], '=');
         env->name = tmp[0];
+        for (int i = 0; tmp[1][i] != '\0'; i++);
         env->value = tmp[1];
         env->next = malloc(sizeof(env_t));
         env = env->next;

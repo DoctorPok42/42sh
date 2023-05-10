@@ -73,7 +73,7 @@ void loop(mysh_t *mysh, prompt_t *prompt)
             case 4:
                 mysh->status = -42; return;
             case '\n':
-                mysh->input = prompt->buffer; return;
+                return;
             case 127:
             case '\b':
                 back_space_key(prompt); break;
@@ -98,14 +98,15 @@ void get_input(mysh_t *mysh)
     tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 
     prompt_t *prompt = malloc(sizeof(prompt_t));
-    prompt->size = 256; prompt->buffer = malloc(prompt->size);
+    prompt->size = 256;
+    prompt->buffer = malloc(sizeof(char) * prompt->size);
+    for (long unsigned i = 0; i < prompt->size; i++)
+        prompt->buffer[i] = '\0';
     prompt->position = 0;
     prompt->history = get_number_of_line() + 1;
-
     loop(mysh, prompt);
-
-    mysh->input = prompt->buffer;
+    mysh->input = strdup(prompt->buffer);
+    free(prompt->buffer);
     free(prompt);
-
     tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 }

@@ -20,11 +20,14 @@ int main(int ac, char **av, char **env)
     mysh_t *mysh = malloc(sizeof(mysh_t));
     env_t *env_list = malloc(sizeof(env_t)); mysh->status = 0;
     if (env[0] != NULL) {
+        mysh->no_env = false;
         put_in_env(env, env_list);
     } else {
         env_list->name = NULL; env_list->value = NULL; env_list->next = NULL;
         mysh->no_env = true;
     }
+
+    mysh->github = malloc(sizeof(char) * 100);
 
     while (mysh->status != -42) {
         mysh->status = mysh_loop(mysh, env_list);
