@@ -123,7 +123,7 @@ void get_input(mysh_t *mysh)
 
     prompt_t *prompt = malloc(sizeof(prompt_t));
     prompt->size = 256;
-    prompt->buffer = malloc(sizeof(char) * prompt->size);
+    prompt->buffer = malloc(sizeof(char) * prompt->size + 1);
     for (long unsigned i = 0; i < prompt->size; i++)
         prompt->buffer[i] = '\0';
     prompt->position = 0;
