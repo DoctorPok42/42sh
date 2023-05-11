@@ -35,13 +35,13 @@ static char **put_in_tab(char **tab, char const *str, char const separator)
         for (size = 0; str[j] != separator && str[j] != '\0'; j++, size++);
         j -= size;
         tab[i] = malloc(sizeof(char) * size + 1);
-        tab[i][size] = '\0';
         for (int k = 0; k < size; k++, j++) {
             tab[i][k] = str[j];
         }
         while (str[j] == separator || str[j] == '\t') {
             j++;
         }
+        tab[i][size] = '\0';
     }
     return tab;
 }

@@ -6,13 +6,15 @@
 */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include "mysh.h"
 #include "prompt.h"
 
-char *search_in_history(int nb);
-int get_number_of_line(void);
+char *search_in_history(mysh_t *mysh, int nb);
+int get_number_of_line(mysh_t *mysh);
 int my_strlen(char *str);
+void delete_key(prompt_t *prompt);
 
 void erase_line(prompt_t *prompt)
 {
@@ -37,12 +39,12 @@ void move_cursor(prompt_t *prompt, char caract)
     }
 }
 
-void navigate_in_history_top(prompt_t *prompt)
+void navigate_in_history_top(mysh_t *mysh, prompt_t *prompt)
 {
     if (prompt->history > 0) {
         prompt->history--;
         erase_line(prompt);
-        prompt->buffer = search_in_history(prompt->history);
+        prompt->buffer = search_in_history(mysh, prompt->history);
         if (prompt->buffer == NULL) {
             prompt->history = 0;
             fflush(stdout);
@@ -54,14 +56,14 @@ void navigate_in_history_top(prompt_t *prompt)
     }
 }
 
-void navigate_in_history_bottom(prompt_t *prompt)
+void navigate_in_history_bottom(mysh_t *mysh, prompt_t *prompt)
 {
-    if (prompt->history <= get_number_of_line()) {
+    if (prompt->history <= get_number_of_line(mysh)) {
         prompt->history++;
         erase_line(prompt);
-        prompt->buffer = search_in_history(prompt->history);
+        prompt->buffer = search_in_history(mysh, prompt->history);
         if (prompt->buffer == NULL) {
-            prompt->history = get_number_of_line() + 1;
+            prompt->history = get_number_of_line(mysh) + 1;
             fflush(stdout);
             return;
         }
@@ -71,17 +73,22 @@ void navigate_in_history_bottom(prompt_t *prompt)
     }
 }
 
-void get_key(prompt_t *prompt, char caract)
+void get_key(mysh_t *mysh, prompt_t *prompt, char caract)
 {
     switch (caract) {
         case 'A':
-            navigate_in_history_top(prompt);
+            navigate_in_history_top(mysh, prompt);
             break;
         case 'B':
-            navigate_in_history_bottom(prompt);
+            navigate_in_history_bottom(mysh, prompt);
             break;
         case 'C':
         case 'D':
             move_cursor(prompt, caract);
+            break;
+        case '3':
+            if (read(0, &caract, 1) == 1 && caract == '~')
+                delete_key(prompt);
+            break;
     }
 }

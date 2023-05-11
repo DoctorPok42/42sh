@@ -40,10 +40,8 @@ int mysh_loop(mysh_t *mysh, env_t *env)
 {
     mysh->input = NULL;
     char *cmd = NULL;
-
     if (isatty(0) == 1)
         mysh->status = display_prompt(mysh, env);
-
     get_input(mysh);
     write(1, "\n", 1);
 
