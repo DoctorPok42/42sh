@@ -15,6 +15,7 @@
 int get_number_of_line(mysh_t *mysh);
 void get_key(mysh_t *mysh, prompt_t *prompt, char caract);
 void assing_buffer_to_input(mysh_t *mysh, prompt_t *prompt);
+void display_prompt(mysh_t *mysh, env_t *env);
 
     void back_space_key(prompt_t *prompt)
 {
