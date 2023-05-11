@@ -14,8 +14,7 @@ int my_tablen(char **tab);
 
 parser_t *put_parser(parser_t *parser, char **tab)
 {
-    char **tmp = NULL;
-    parser_t *head = parser;
+    char **tmp = NULL; parser_t *head = parser;
     for (int i = 0; tab[i] != NULL; i++) {
         tmp = my_str_to_word_array(tab[i], ' ');
         head->cmd = malloc(sizeof(char) * (my_strlen(tmp[0]) + 1));
