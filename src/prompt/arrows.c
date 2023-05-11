@@ -47,6 +47,7 @@ void navigate_in_history_top(mysh_t *mysh, prompt_t *prompt)
         prompt->buffer = search_in_history(mysh, prompt->history);
         if (prompt->buffer == NULL) {
             prompt->history = 0;
+            prompt->buffer = search_in_history(mysh, prompt->history);
             fflush(stdout);
             return;
         }

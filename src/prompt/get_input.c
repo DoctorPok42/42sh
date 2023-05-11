@@ -14,8 +14,9 @@
 
 int get_number_of_line(mysh_t *mysh);
 void get_key(mysh_t *mysh, prompt_t *prompt, char caract);
+void assing_buffer_to_input(mysh_t *mysh, prompt_t *prompt);
 
-void back_space_key(prompt_t *prompt)
+    void back_space_key(prompt_t *prompt)
 {
     int selected = 0;
     if (prompt->position > 0) {
@@ -129,8 +130,6 @@ void get_input(mysh_t *mysh)
     prompt->position = 0;
     prompt->history = get_number_of_line(mysh) + 1;
     loop(mysh, prompt);
-    mysh->input = strdup(prompt->buffer);
-    free(prompt->buffer);
-    free(prompt);
+    assing_buffer_to_input(mysh, prompt);
     tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 }
