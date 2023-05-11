@@ -37,9 +37,9 @@ char *check_pass(parser_t *parser, char **path_slice)
 
 int mysh_launch(mysh_t *mysh, env_t *env, parser_t *parser)
 {
-    if (parser->next == NULL)
-        return launch_default(env, parser, mysh->status);
     char *next_cmd = parser->next->cmd;
+    if (next_cmd == NULL)
+        return launch_default(env, parser, mysh->status);
 
     if (my_strcmp(next_cmd, "|") == 0)
         return launch_pipe(env, parser, mysh->status);

@@ -30,7 +30,13 @@ env_t *put_in_env(char **tab, env_t *env)
 
 char **env_tab(env_t *env)
 {
-    char **tab = malloc(sizeof(char *) * 3);
+    env_t *tmp = env;
+    int count = 0;
+    while (tmp != NULL) {
+        count++;
+        tmp = tmp->next;
+    }
+    char **tab = malloc(sizeof(char *) * count);
     int i = 0;
 
     while (env->next != NULL) {

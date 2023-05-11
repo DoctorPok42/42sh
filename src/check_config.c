@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "mysh.h"
 
 char *get_env(env_t *env, char *find);
@@ -17,9 +18,9 @@ char *my_strcat(char *dest, char const *src);
 void check_config(mysh_t *mysh, env_t *env_list)
 {
     char *home = get_env(env_list, "HOME");
-    char *path = my_strcat(home, "/.cache/42sh");
-    char *history = my_strcat(path, "/.history");
-    char *alias = my_strcat(path, "/.alias");
+    char *path = my_strcat(home, "/.cache/42sh\0");
+    char *history = my_strcat(path, "/.history\0");
+    char *alias = my_strcat(path, "/.alias\0");
 
     if (access(path, F_OK) == -1) {
         mkdir(path, 0777);
