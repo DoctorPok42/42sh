@@ -23,7 +23,7 @@ char *my_strcat(char *dest, char const *src)
         tab[size_one + j] = src[j];
     }
 
-    tab[size_one + size_two + 1] = '\0';
+    tab[size_one + size_two] = '\0';
 
     return tab;
 }

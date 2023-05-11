@@ -18,7 +18,7 @@ int display_prompt(mysh_t *mysh, env_t *env);
 int my_strcmp(char const *s1, char const *s2);
 int parse_input(mysh_t *mysh, env_t *env, char *cmd);
 int mysh_launch(mysh_t *mysh, env_t *env, parser_t *parser);
-int check_alias(mysh_t *mysh, env_t *env, parser_t *parser);
+int check_alias(mysh_t *mysh);
 
 int mysh_execute(mysh_t *mysh, env_t *env, parser_t *parser)
 {

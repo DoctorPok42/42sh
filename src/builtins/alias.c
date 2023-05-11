@@ -39,8 +39,7 @@ static char *check_array(char **array, char **alias_array, int i, int fd)
     return NULL;
 }
 
-char *check_alias(mysh_t *mysh,
-    env_t * env, parser_t *parser)
+char *check_alias(mysh_t *mysh)
 {
     int len = 0;
     char *cmd = NULL;
@@ -83,6 +82,7 @@ static int single_alias(mysh_t *mysh, parser_t *parser)
 int func_alias(mysh_t *mysh,
     env_t * env, parser_t *parser)
 {
+    (void)env;
     FILE *fp;
     fp = fopen(mysh->alias, "r");
     fp_check(mysh, fp);

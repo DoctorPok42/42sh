@@ -6,6 +6,7 @@
 */
 
 #include <stdbool.h>
+#include <string.h>
 #include "mysh.h"
 #include "lists.h"
 
@@ -21,7 +22,7 @@ char **parsing_path(env_t *env)
     char **path_slice = my_str_to_word_array(path, ':');
 
     for (int i = 0; path_slice[i] != NULL; i++) {
-        path_slice[i] = my_strcat(path_slice[i], "/\0");
+        path_slice[i] = my_strcat(path_slice[i], "/");
     }
 
     return path_slice;
