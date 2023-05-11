@@ -66,6 +66,7 @@ SRC = src/main.c \
 		$(addsuffix .c, \
 			get_input \
 			arrows \
+			asign \
 		)\
 	) \
 
