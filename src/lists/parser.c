@@ -32,6 +32,7 @@ parser_t *put_parser(parser_t *parser, char **tab)
         head = head->next;
     }
     parser->next->args = NULL;
+    parser->next->cmd = NULL;
     head->next = NULL;
     return parser;
 }
