@@ -45,10 +45,10 @@ int mysh_loop(mysh_t *mysh, env_t *env)
     get_input(mysh);
     write(1, "\n", 1);
 
-    if (mysh->input == NULL || mysh->input[0] == '\0')
-        return 0;
     if (mysh->status == -42)
         return (mysh->status);
+    if (mysh->input == NULL || mysh->input[0] == '\0')
+        return 0;
 
     if (parse_input(mysh, env, cmd) == 84 || mysh->status == -42)
         return (84);

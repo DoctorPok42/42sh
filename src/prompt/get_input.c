@@ -76,10 +76,10 @@ void write_caract(prompt_t *prompt, char c, int diff)
                 prompt->buffer + prompt->position,
                 prompt->size - prompt->position);
     }
+    if (c < 32 || c > 126) return;
     prompt->buffer[prompt->position++] = c;
-    if (diff == 0) {
-        putchar(c); fflush(stdout);
-    } if (diff > 0) {
+    if (diff == 0) write(1, &c, 1);
+    if (diff > 0) {
         printf("%s", prompt->buffer + prompt->position - 1); fflush(stdout);
         for (int i = 0; i < diff; i++) {
             printf("\b"); fflush(stdout); prompt->position++;

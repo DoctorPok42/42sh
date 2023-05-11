@@ -16,7 +16,6 @@ void my_putstr(char const *str);
 
 typedef struct mysh_s {
     char **env;
-    char *pwd;
     int status;
     int exit;
     bool no_env;

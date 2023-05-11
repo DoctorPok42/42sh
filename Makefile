@@ -22,6 +22,7 @@ SRC = src/main.c \
 			exec/redirection \
 			exec/file \
 			exec/index \
+			free_struct \
 		) \
 	) \
 	$(addprefix src/builtins/, \
@@ -72,7 +73,7 @@ SRC = src/main.c \
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -I include/ -Wall -Wextra
+CFLAGS = -I include/ -Wall -Wextra -g3
 
 NAME = 42sh
 
