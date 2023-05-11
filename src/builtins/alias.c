@@ -73,7 +73,7 @@ static int single_alias(mysh_t *mysh, parser_t *parser)
     read(fd, buffer, st.st_size);
     buffer[st.st_size] = '\0';
     if (strncmp(alias, "alias\n", 5) == 0 && my_tablen(parser->args) == 1) {
-        printf("%s\n", buffer);
+        printf("%s", buffer);
         return 0;
     }
     return 1;
