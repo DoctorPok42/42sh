@@ -12,7 +12,7 @@
 #include "mysh.h"
 #include "lists.h"
 
-void get_input(mysh_t *mysh);
+void get_input(mysh_t *mysh, env_t *env);
 void my_putstr(char const *str);
 int display_prompt(mysh_t *mysh, env_t *env);
 int my_strcmp(char const *s1, char const *s2);
@@ -42,7 +42,7 @@ int mysh_loop(mysh_t *mysh, env_t *env)
     char *cmd = NULL;
     if (isatty(0) == 1)
         mysh->status = display_prompt(mysh, env);
-    get_input(mysh);
+    get_input(mysh, env);
     write(1, "\n", 1);
 
     if (mysh->status == -42)

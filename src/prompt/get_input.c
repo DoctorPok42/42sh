@@ -88,17 +88,17 @@ void write_caract(prompt_t *prompt, char c, int diff)
     diff = 0;
 }
 
-void loop(mysh_t *mysh, prompt_t *prompt)
+void loop(mysh_t *mysh, prompt_t *prompt, env_t *env)
 {
     while (1) {
-        char c;
-        int diff = 0;
-        read(STDIN_FILENO, &c, 1);
+        char c; int diff = 0; read(STDIN_FILENO, &c, 1);
         switch (c) {
-            case 4:
-                mysh->status = -42; return;
-            case '\n':
-                return;
+            case 4: mysh->status = -42; return;
+            case '\x0C':
+                printf("\033[2J\033[1;1H"); fflush(stdout);
+                display_prompt(mysh, env); printf("%s", prompt->buffer);
+                fflush(stdout); break;
+            case '\n': return;
             case 127:
             case '\b':
                 back_space_key(prompt); break;
@@ -112,7 +112,7 @@ void loop(mysh_t *mysh, prompt_t *prompt)
     }
 }
 
-void get_input(mysh_t *mysh)
+void get_input(mysh_t *mysh, env_t *env)
 {
     struct termios orig_termios;
     tcgetattr(STDIN_FILENO, &orig_termios);
@@ -129,7 +129,7 @@ void get_input(mysh_t *mysh)
         prompt->buffer[i] = '\0';
     prompt->position = 0;
     prompt->history = get_number_of_line(mysh) + 1;
-    loop(mysh, prompt);
+    loop(mysh, prompt, env);
     assing_buffer_to_input(mysh, prompt);
     tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 }
