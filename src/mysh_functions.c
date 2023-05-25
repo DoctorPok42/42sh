@@ -40,16 +40,21 @@ int mysh_loop(mysh_t *mysh, env_t *env)
 {
     mysh->input = NULL;
     char *cmd = NULL;
-    if (isatty(0) == 1)
+    size_t len = 0;
+    if (isatty(STDIN_FILENO) == 1) {
         mysh->status = display_prompt(mysh, env);
-    get_input(mysh, env);
-    write(1, "\n", 1);
+        get_input(mysh, env);
+        write(1, "\n", 1);
+    } else if (getline(&cmd, &len, stdin) == -1)
+        return (mysh->status = -84);
+    if (isatty(STDIN_FILENO) == 0)
+        mysh->status = display_prompt(mysh, env);
 
+    mysh->input = cmd;
     if (mysh->status == -42)
         return (mysh->status);
     if (mysh->input == NULL || mysh->input[0] == '\0')
         return 0;
-
     if (parse_input(mysh, env, cmd) == 84 || mysh->status == -42)
         return (84);
     return mysh->status;
